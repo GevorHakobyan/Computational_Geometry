@@ -4,26 +4,28 @@
 namespace geometry {
     class Line {
         public:
+        using Coordinates = std::tuple<float, float, float>;
         using Length = double;
+        using Point = geometry::Vector;
 
-        public: //methods
-        explicit Line(const Point&, const Point&);
+        public:
+        Line(const Vector&, const Vector&);
         Line(const Line&) noexcept;
-        ~Line() = default;
-        Length getLength() const; 
-        //getters and setters
+        void setCoordinates(const float, const float, const float);
+        void setLength(float,float,float);
+        Length getLength() const;
+        Coordinates getCoordinates() const;
         const Point& getP1() const;
         const Point& getP2() const;
-        void setP1(const Point&);
-        void setP2(const Point&);
 
-        public: //utility methods
-        bool doesIntersect_With(const Line&) const;
-        private: //helper methods
+        private:
+        bool doesIntersectWith(const Line&) const;
         bool hasSameSign(const Vector&, const Vector&) const;
 
-        private: //data memebers
-        Point m_P1{};
-        Point m_P2{};
+        private:
+        Coordinates m_Coordinates{};
+        Length m_Length{};
+        Point m_P1;
+        Point m_P2;
     };
 };//namespace geometry
