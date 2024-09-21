@@ -58,7 +58,7 @@ geometry::Vector::Length geometry::Vector::getLength() const {
 
 geometry::Vector& geometry::Vector::operator=(const Vector& rhs) noexcept {
     auto temp{rhs};
-    Swap(*this, temp);
+    Swap(temp);
     return *this;
 } 
 
@@ -111,11 +111,16 @@ geometry::Vector geometry::Vector::operator^(const Vector& rhs) const{
     auto[x1, y1, z1] = this->getCoordinates();
     auto[x2, y2, z2] = rhs.getCoordinates();
 
+
     Coordinate newX = ((y1 * z2) - (z1 * y2));
     Coordinate newY = ((x1 * z2) - (z1 * x2));
     Coordinate newZ = ((x1 * y2) - (y1 * x2));
 
-    return Vector{newX, -newY, newZ};
+    if (0 == z1 && 0 == z2) { //2D
+        newX = (x1 * y2);
+        newY = (x2 * y1); 
+    }
+    return Vector{newX, newY, newZ};
 }
 
 bool geometry::Vector::operator==(const Vector& rhs) const {
@@ -159,16 +164,20 @@ geometry::Vector::Degree geometry::Vector::Radian_to_Degree(const Radian theta) 
     return (57.2958 * theta);
 }
 
-void geometry::Vector::Swap(Vector& v1, Vector& v2) {
-    Coordinate x1 = v1.getX();
-    Coordinate x2 = v2.getX();
-    std::swap(x1, x2);
+void geometry::Vector::Swap(Vector& v1) {
+    auto x = v1.getX();
+    std::swap(m_X, x);
 
-    Coordinate y1 = v1.getY();
-    Coordinate y2 = v2.getY();
-    std::swap(y1, y2);  
+    auto y = v1.getY();
+    std::swap(m_Y, y);
 
-    Coordinate z1 = v1.getZ();
-    Coordinate z2 = v2.getZ();
-    std::swap(z1, z2);
+    auto z = v1.getZ();
+    std::swap(m_Z, z);
+
+    auto rhsLen = v1.getLength();
+    std::swap(m_length, rhsLen);
+}
+
+void geometry::Vector::printCoordinates() const {
+    std::cout << "{" << m_X << " " << m_Y << " " << m_Z << "}\n"; 
 }

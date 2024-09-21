@@ -44,12 +44,13 @@ namespace geometry {
     Radian getAngle_With_Radian(const Vector&) const;
     Degree getAngle_With_Degree(const Vector&) const;
     Vector ProjectionOn_Vector(const Vector&) const;
+    void printCoordinates() const;
     Vector Unit() const;
 
     private: //helper methods
     Degree Radian_to_Degree(const Radian) const;
     Length decideLength() const;
-    void Swap(Vector&, Vector&);
+    void Swap(Vector&);
 
     private: //data members
     Coordinate m_X{};
